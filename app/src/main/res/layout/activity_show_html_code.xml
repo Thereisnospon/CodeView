@@ -3,12 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowCodeActivity">
-
-   <thereisnospon.codeview.CodeView
-       android:id="@+id/codeview"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
-   </thereisnospon.codeview.CodeView>
+    tools:context="thereisnospon.mcode.ShowHtmlCodeActivity">
+    <thereisnospon.codeview.CodeView
+        android:id="@+id/codeview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></thereisnospon.codeview.CodeView>
 
 </RelativeLayout>

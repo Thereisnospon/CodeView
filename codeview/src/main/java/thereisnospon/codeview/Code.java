@@ -1,19 +1,29 @@
 package thereisnospon.codeview;
 
+import java.net.PortUnreachableException;
+
 /**
  * Created by yzr on 16/6/20.
  */
 public class Code {
 
+
     String code;
-    int theme;
+    Language language;
 
     public Code(String code){
-        this(code,0);
+       this(code,Language.AUTO);
     }
-    public Code(String code,int theme){
+
+    public Code(String code,Language language){
         this.code=code;
-        this.theme=theme;
+        this.language=language;
+    }
+
+    public  enum Language{
+        AUTO;
+        private  Language(){
+        }
     }
 
     public String getCode() {
@@ -24,11 +34,12 @@ public class Code {
         this.code = code;
     }
 
-    public int getTheme() {
-        return theme;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setTheme(int theme) {
-        this.theme = theme;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
+
 }

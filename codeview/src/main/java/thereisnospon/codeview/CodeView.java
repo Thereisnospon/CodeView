@@ -3,17 +3,57 @@ package thereisnospon.codeview;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
+import org.jsoup.select.Elements;
+import org.jsoup.select.Evaluator;
 
 /**
  * Created by yzr on 16/6/20.
  */
+
+
+/**
+ * Copyright (c) 2006, Ivan Sagalaev
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of highlight.js nor the names of its contributors
+ may be used to endorse or promote products derived from this software
+ without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE REGENTS AND CONTRIBUTORS BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * @author thereisnospon
+ */
 public class CodeView extends WebView {
 
-    Code code;
+    private CodeViewTheme theme;
+    private String encode;
+    private Document document;
 
     public CodeView(Context context) {
         this(context,null);
@@ -25,35 +65,87 @@ public class CodeView extends WebView {
 
     public CodeView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.theme=CodeViewTheme.DEFAULT;
+        this.encode="utf-8";
         getSettings().setJavaScriptEnabled(true);
     }
 
+    public CodeView setTheme(CodeViewTheme theme){
+        this.theme=theme;
+        return this;
+    }
+
+    public CodeView setEncode(String encode){
+        this.encode=encode;
+        return this;
+    }
+
     public void showCode(Code code){
-        Document document= Jsoup.parse(BASE_HTML);
-        document.head().after(createStyle(code.getTheme()));
-        document.getElementById("code").text(code.getCode());
-        setBackgroundColor(Color.parseColor(BACKGROUNDS[code.getTheme()]));
-        loadDataWithBaseURL(null,document.html(),"text/html","utf-8",null);
+        this.document= Jsoup.parse(BASE_HTML);
+        document.head().after(createStyle());
+        addCode(code);
+        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+    }
+
+    public CodeView fillColor(){
+        setBackgroundColor(Color.parseColor(theme.getBackgroundColor()));
+        return this;
+    }
+
+    public void showCodeHtmlByCssSelect(String localHtml, String cssSelect){
+        documentInit(localHtml);
+        Elements elements=document.select(cssSelect);
+        showCodeHtml(elements);
+        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+    }
+
+    public void showCodeHtmlByClass(String localHtml, String codeClass){
+        documentInit(localHtml);
+        Elements elements=document.getElementsByClass(codeClass);
+        showCodeHtml(elements);
+        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+    }
+
+    private void documentInit(String loaclHtml){
+        this.document=Jsoup.parse(loaclHtml);
+        document.head().append("\n<script src=\"file:///android_asset/highlight/highlight.pack.js\"></script>\n");
+        document.head().append("\n<script>hljs.initHighlightingOnLoad();</script>\n");
+        document.head().append(createStyle());
+    }
+
+   private void showCodeHtml(Elements codes){
+        if(codes!=null){
+            for(int i=0;i<codes.size();i++){
+                String raw=codes.get(i).text();
+                codes.get(i).html("<pre><code>"+raw+"</code></pre>");
+            }
+        }
     }
 
     public void showCode(String code){
-        Code ccode=new Code(code,0);
+        Code ccode=new Code(code);
         showCode(ccode);
     }
 
-    public static int parseColor(int theme){
-        return Color.parseColor(BACKGROUNDS[theme]);
+    public void showCode(String code,Code.Language language){
+        Code ccode=new Code(code,language);
+        showCode(ccode);
     }
 
-    private String createStyle(int theme){
-        return  "<link rel=\"stylesheet\" href=\"file:///android_asset/highlight/styles/"+ parseTheme(theme)+".css\"/>";
+    public int getCodeBackgroundColor(){
+        return Color.parseColor(theme.getBackgroundColor());
     }
 
-    public static String parseTheme(int theme){
-        return THEMES[theme];
+    private String createStyle(){
+        return  "<link rel=\"stylesheet\" href=\"file:///android_asset/highlight/styles/"+theme.getName()+".css\"/>";
     }
 
-    public static final String BASE_HTML="<!DOCTYPE html>\n" +
+    private void  addCode(Code code){
+       document.body().appendElement("pre").appendElement("code").text(code.getCode());
+    }
+
+    private static final String BASE_HTML=
+            "<!DOCTYPE html>\n" +
             "<html>\n" +
             "<head>\n" +
             "\t<script src=\"file:///android_asset/highlight/highlight.pack.js\"></script>\n" +
@@ -61,139 +153,6 @@ public class CodeView extends WebView {
             "\t<title></title>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<pre><code class=\"c\" id='code'>\n" +
-            "</code></pre>\n" +
             "</body>\n" +
             "</html>";
-
-    public static final String THEMES[]={
-            "agate",
-            "androidstudio",
-            "arduino-light",
-            "arta",
-            "atelier-cave-dark",
-            "atelier-cave-light",
-            "atelier-dune-dark",
-            "atelier-dune-light",
-            "atelier-estuary-dark",
-            "atelier-estuary-light",
-            "atelier-forest-dark",
-            "atelier-forest-light",
-            "atelier-heath-dark",
-            "atelier-heath-light",
-            "atelier-lakeside-dark",
-            "atelier-lakeside-light",
-            "atelier-plateau-dark",
-            "atelier-plateau-light",
-            "atelier-savanna-dark",
-            "atelier-savanna-light",
-            "atelier-seaside-dark",
-            "atelier-seaside-light",
-            "atelier-sulphurpool-dark",
-            "atelier-sulphurpool-light",
-            "codepen-embed",
-            "color-brewer",
-            "dark",
-            "darkula",
-            "default",
-            "docco",
-            "dracula",
-            "far",
-            "foundation",
-            "github",
-            "grayscale",
-            "gruvbox-dark",
-            "gruvbox-light",
-            "hopscotch",
-            "hybrid",
-            "idea",
-            "ir-black",
-            "mono-blue",
-            "monokai-sublime",
-            "monokai",
-            "obsidian",
-            "paraiso-dark",
-            "paraiso-light",
-            "pojoaque",
-            "purebasic",
-            "qtcreator_dark",
-            "qtcreator_light",
-            "railscasts",
-            "rainbow",
-            "solarized-dark",
-            "solarized-light",
-            "sunburst",
-            "tomorrow-night-blue",
-            "tomorrow-night-eighties",
-            "tomorrow-night",
-            "xcode",
-            "xt256",
-            "zenburn",
-    };
-
-    public static final String[] BACKGROUNDS={
-            "#030303",
-            "#282b2e",
-            "#FFFFFF",
-            "#020202",
-            "#19171c",
-            "#efecf4",
-            "#20201d",
-            "#fefbec",
-            "#22221b",
-            "#f4f3ec",
-            "#1b1918",
-            "#f1efee",
-            "#1b181b",
-            "#f7f3f7",
-            "#161b1d",
-            "#ebf8ff",
-            "#1b1818",
-            "#f4ecec",
-            "#171c19",
-            "#ecf4ee",
-            "#131513",
-            "#f4fbf4",
-            "#202746",
-            "#f5f7ff",
-            "#020202",
-            "#0f0f0f",
-            "#040404",
-            "#2b2b2b",
-            "#F0F0F0",
-            "#f8f8ff",
-            "#282a36",
-            "#000080",
-            "#0e0e0e",
-            "#f8f8f8",
-            "#0f0f0f",
-            "#282828",
-            "#fbf1c7",
-            "#322931",
-            "#1d1f21",
-            "#0f0f0f",
-            "#000000",
-            "#eaeef3",
-            "#23241f",
-            "#272822",
-            "#282b2e",
-            "#2f1e2e",
-            "#e7e9db",
-            "#073642",
-            "#FFFFDF",
-            "#000000",
-            "#ffffff",
-            "#232323",
-            "#474949",
-            "#002b36",
-            "#fdf6e3",
-            "#000000",
-            "#002451",
-            "#2d2d2d",
-            "#1d1f21",
-            "#0f0f0f",
-            "#000000",
-            "#3f3f3f",
-    };
-
 }
