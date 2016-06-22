@@ -161,6 +161,11 @@ class Main
 邮箱：thereisnospon@qq.com
 
 
+版本微调：0.2.1版本中，把最小sdk版本修改为14，可供更低版本的android 使用。
+```
+  compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.2.1', ext: 'aar', classifier: '')
+```
+
 
 代码高亮的渲染部分，是通过highlight.js 实现的。
 
