@@ -15,6 +15,7 @@ public class ShowHtmlCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_html_code);
         codeView=(CodeView)findViewById(R.id.codeview);
         codeView.setTheme(CodeViewTheme.DRACULA);
-        codeView.showCodeHtmlByClass(Constant.HTML,"code");
+        codeView.showCodeHtmlByCssSelect(Constant.HTML,".code");
+        codeView.setTheme(CodeViewTheme.DRACULA);
     }
 }
