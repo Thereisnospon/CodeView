@@ -160,8 +160,16 @@ class Main
 
 邮箱：thereisnospon@qq.com
 
+## Release Demo 
 
-版本微调：0.2.1版本中，把最小sdk版本修改为14，可供更低版本的android 使用。
+应大家要求，发布了 release 版本，大家可以到这里 https://github.com/Thereisnospon/CodeView/releases
+查看demo的效果。
+
+
+
+## 版本微调：
+
+0.2.1版本中，把最小sdk版本修改为14，可供更低版本的android 使用。
 ```
   compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.2.1', ext: 'aar', classifier: '')
 ```
