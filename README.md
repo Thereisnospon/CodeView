@@ -150,6 +150,8 @@ class Main
 	public void showCode(Code code)
 ```
 
+也可以把这个项目clone到本地，app里有具体的使用demo，可以浏览下所有的主题，和一些具体用法。
+
 
 如果觉得不错的话，可以点击这里点个赞什么的的
 
@@ -161,6 +163,7 @@ class Main
 
 
 代码高亮的渲染部分，是通过highlight.js 实现的。
+
 Copyright (c) 2006, Ivan Sagalaev
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
