@@ -1,3 +1,6 @@
+
+english version : https://github.com/Thereisnospon/CodeView/blob/master/READ_ENGLISH.md
+
 # CodeView
 
 
