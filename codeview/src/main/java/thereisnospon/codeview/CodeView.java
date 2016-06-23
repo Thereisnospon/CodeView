@@ -83,6 +83,13 @@ public class CodeView extends WebView {
     }
 
 
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public void setHistoryUrl(String historyUrl) {
+        this.historyUrl = historyUrl;
+    }
 
     public void showCode(Code code){
         this.document= Jsoup.parse(BASE_HTML);
