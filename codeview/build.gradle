@@ -19,7 +19,7 @@ android {
     }
 }
 
-version = "0.2.1"
+version = "0.3.0"
 def siteUrl = 'thereisnospon.com'      // 项目的主页
 def gitUrl = 'thereisnospon.com'   // Git仓库的url
 group = "thereisnospon.codeview"         // Maven Group ID for the artifact，一般填你唯一的包名

@@ -54,9 +54,11 @@ repositories {
 ```
 然后在dependencies中加入下面两行代码：
 ```
-compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.2.0', ext: 'aar', classifier: '')
+compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.3.0', ext: 'aar', classifier: '')
 compile 'org.jsoup:jsoup:1.9.2'
 ```
+如果0.3.0版本出了问题，可以尝试修改版本为0.2.0。
+
 然后就获取好了，如果有问题，那应该是被墙的锅。
 
 具体使用方法，非常简单，首先在 layout文件中
@@ -160,6 +162,24 @@ class Main
 
 邮箱：thereisnospon@qq.com
 
+## Release Demo 
+
+应大家要求，发布了 release 版本，大家可以到这里 https://github.com/Thereisnospon/CodeView/releases
+查看demo的效果。
+
+
+
+## 版本微调：
+
+0.2.1版本中，把最小sdk版本修改为14，可供更低版本的android 使用。
+
+## 0.3.0 更新
+
+增加了两个方法,用来解决网页显示图片的时候大多数图片用相对地址，导致图片显示不出的bug
+```java
+   public void setBaseUrl(String baseUrl
+   public void setHistoryUrl(String historyUrl)
+```
 
 
 代码高亮的渲染部分，是通过highlight.js 实现的。
