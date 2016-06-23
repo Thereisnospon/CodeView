@@ -54,6 +54,8 @@ public class CodeView extends WebView {
     private CodeViewTheme theme;
     private String encode;
     private Document document;
+    private String baseUrl = null;
+    private String historyUrl = null;
 
     public CodeView(Context context) {
         this(context,null);
@@ -80,11 +82,19 @@ public class CodeView extends WebView {
         return this;
     }
 
+    public void setBaseUrl(String baseUrl){
+	this.baseUrl = baseUrl;
+    }
+
+   public void setHistoryUrl(String historyUrl){
+	this.historyUrl = historyUrl;
+   }
+
     public void showCode(Code code){
         this.document= Jsoup.parse(BASE_HTML);
         document.head().after(createStyle());
         addCode(code);
-        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+        loadDataWithBaseURL(baseUrl,document.html(),"text/html",encode,historyUrl);
     }
 
     public CodeView fillColor(){
@@ -96,14 +106,14 @@ public class CodeView extends WebView {
         documentInit(localHtml);
         Elements elements=document.select(cssSelect);
         showCodeHtml(elements);
-        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+        loadDataWithBaseURL(baseUrl,document.html(),"text/html",encode,historyUrl);
     }
 
     public void showCodeHtmlByClass(String localHtml, String codeClass){
         documentInit(localHtml);
         Elements elements=document.getElementsByClass(codeClass);
         showCodeHtml(elements);
-        loadDataWithBaseURL(null,document.html(),"text/html",encode,null);
+        loadDataWithBaseURL(baseUrl,document.html(),"text/html",encode,historyUrl);
     }
 
     private void documentInit(String loaclHtml){
