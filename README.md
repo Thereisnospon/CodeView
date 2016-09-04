@@ -44,20 +44,10 @@ CodeView 是一个能显示代码，并且能够进行代码高亮的一个控�
 ## 获取方法(gradle)
 
 
-在build.gradle文件中加入下面代码:
 ```
-repositories {
-    maven {
-        url  "http://dl.bintray.com/thereisnospon/maven"
-    }
-}
+compile 'thereisnospon.codeview:codeview:0.3.1'
+
 ```
-然后在dependencies中加入下面两行代码：
-```
-compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.3.0', ext: 'aar', classifier: '')
-compile 'org.jsoup:jsoup:1.9.2'
-```
-如果0.3.0版本出了问题，可以尝试修改版本为0.2.0。
 
 然后就获取好了，如果有问题，那应该是被墙的锅。
 

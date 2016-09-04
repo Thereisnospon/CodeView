@@ -18,6 +18,7 @@ public class ShowCodeActivity extends AppCompatActivity {
         codeView=(CodeView)findViewById(R.id.codeview);
         codeView.setTheme(CodeViewTheme.listThemes()[theme]);
         codeView.fillColor();
+        
         codeView.showCode(Constant.CODE);
     }
 }

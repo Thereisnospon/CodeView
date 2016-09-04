@@ -45,24 +45,14 @@ etc：
 ## get(gradle)
 
 
-add this code to build.gradle:
-```
-repositories {
-    maven {
-        url  "http://dl.bintray.com/thereisnospon/maven"
-    }
-}
-```
-then add this two lines to dependencies:
 
 ```
-compile(group: 'thereisnospon.codeview', name: 'codeview', version: '0.3.0', ext: 'aar', classifier: '')
-compile 'org.jsoup:jsoup:1.9.2'
+compile 'thereisnospon.codeview:codeview:0.3.1'
+
 ```
 
-if the 0.3.0 version have wrong,you can try 0.2.0
 
-then is ok
+
 
 ## use
 
