@@ -1,11 +1,11 @@
 # CodeView
 
 (my engilsh is not good ,if you have any question,you can ask me by e-mail : thereisnospon@qq.com)
-CodeView is a android widget can show code and hightlight it .
-it's hightlight code by hightlight.js , can auto recognize language 
-such as java,c++,c#,python,bash,ruby*...and more language 
 
-it has many themes,and you can choose one:
+CodeView is a android widget can show code and hightlight it .
+The code is rendering by hightlight.js , it  not only can automatically recognize the dominant languages such as java,c++,c#,python,bash,ruby and more..  but also have many kinds of themes you can choose.
+
+
 example:
 
 <table>
@@ -35,7 +35,8 @@ example:
 
 
 
-it  can not only show code snippet，but also  hightlight all code in html ，
+it  can not only show code snippet，but also  have replaced all the specified code in the HTML file with highlighted to come out, and the other part keep unchanged.
+
 
 etc：
 
@@ -50,7 +51,6 @@ etc：
 compile 'thereisnospon.codeview:codeview:0.3.1'
 
 ```
-
 
 
 
@@ -120,7 +120,7 @@ class Main
 
 this code snippet both have a same class "code"
 
-you can hightlight theme by two ways:
+you can hightlight them by two ways:
 
 
 ```java
