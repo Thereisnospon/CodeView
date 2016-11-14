@@ -90,7 +90,6 @@ bintray {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'org.jsoup:jsoup:1.10.1'
 }
