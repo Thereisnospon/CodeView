@@ -1,18 +1,18 @@
 package thereisnospon.codeview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator;
 
 /**
  * Created by yzr on 16/6/20.
@@ -56,6 +56,7 @@ public class CodeView extends WebView {
     private Document document;
     private String baseUrl = null;
     private String historyUrl = null;
+    private ProgressBar pb;
 
     public CodeView(Context context) {
         this(context,null);
@@ -67,9 +68,32 @@ public class CodeView extends WebView {
 
     public CodeView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.theme=CodeViewTheme.DEFAULT;
+        init(context);
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void init(@NonNull  Context context) {
+        this.pb = new ProgressBar(context);
+        this.pb.setIndeterminate(true);
+        this.pb.setVisibility(GONE);
+        addView(this.pb);
+
+        this.theme= CodeViewTheme.DEFAULT;
         this.encode="utf-8";
         getSettings().setJavaScriptEnabled(true);
+        setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                pb.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                pb.setVisibility(GONE);
+            }
+        });
     }
 
     public CodeView setTheme(CodeViewTheme theme){
