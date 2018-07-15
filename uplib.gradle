@@ -1,0 +1,160 @@
+class UpData {
+
+    def up_siteUrl = 'thereisnospon.com'    // project homepage
+    def up_gitUrl = 'https://github.com/Thereisnospon' // project git
+
+    def up_projectName = ""
+
+    def up_bintray_pkg_license = "Apache-2.0"
+    def up_pom_projects_licens = "The Apache Software License, Version 2.0"
+    def up_pom_projects_url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+
+    def up_develop_id = 'thereisnospon'
+    def up_develop_name = 'thereisnospon'
+    def up_develop_email = 'thereisnospon@qq.com'
+
+    def up_group = ""
+    def up_version = ""
+
+    def pkg_name = null
+}
+/**
+ * ../gradlew bintrayUpload
+ */
+ext {
+
+    publishAar = { Closure closure ->
+        UpData goData = new UpData()
+        if (closure == null) {
+
+        } else {
+            closure.delegate = goData
+            closure()
+            configUpload(goData)
+        }
+    }
+}
+
+def configUpload(UpData upData) {
+
+
+    if ((upData.up_group == null || upData.up_group.isEmpty())) {
+        throw new IllegalArgumentException("up_group error, ext.uplib.group=$upData.up_group")
+    } else {
+        project.group = upData.up_group
+    }
+
+    if ((upData.up_version == null || upData.up_version.isEmpty())) {
+        throw new IllegalArgumentException("up_version error, ext.uplib.version=$upData.up_version")
+    } else {
+        project.version = upData.up_version
+    }
+
+    if (upData.up_projectName == null || upData.up_projectName.isEmpty()) {
+        throw new IllegalArgumentException("up_projectName error,ext.uplib.up_projectName=$upData.up_projectName")
+    }
+
+    project.with {
+
+        apply plugin: 'com.github.dcendents.android-maven'
+        apply plugin: 'com.jfrog.bintray'
+
+        // 根节点添加
+        def siteUrl = upData.up_siteUrl   // project homepage
+        def gitUrl = upData.up_gitUrl // project git
+
+        def projectName = upData.up_projectName
+
+        def bintray_pkg_license = upData.up_bintray_pkg_license
+        def pom_projects_licens = upData.up_pom_projects_licens
+        def pom_projects_url = upData.up_pom_projects_url
+
+        def develop_id = upData.up_develop_id
+        def develop_name = upData.up_develop_name
+        def develop_email = upData.up_develop_email
+        def pkg_name = upData.pkg_name
+
+        //配置bintray参数
+        Properties properties = new Properties()
+
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        bintray {
+            user = properties.getProperty("bintrayUser")
+            key = properties.getProperty("bintrayApiKey")
+            configurations = ['archives']
+            pkg {
+                repo = "maven"               //跟上面创建的Maven仓库名字保持一致
+                name = pkg_name != null ? pkg_name : projectName             //发布到JCenter上的项目名字
+                websiteUrl = siteUrl
+                vcsUrl = gitUrl
+                licenses = [bintray_pkg_license]
+                publish = true
+            }
+        }
+
+
+
+        task sourcesJar(type: Jar) {
+            from android.sourceSets.main.java.srcDirs
+            classifier = 'sources'
+        }
+        task javadoc(type: Javadoc) {
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        }
+
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            classifier = 'javadoc'
+            from javadoc.destinationDir
+        }
+
+        artifacts {
+            archives javadocJar
+            archives sourcesJar
+        }
+
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+            options.addStringOption('encoding', 'UTF-8')
+            options.addStringOption('charSet', 'UTF-8')
+        }
+
+        // 根节点添加
+        install {
+            repositories.mavenInstaller {
+                // This generates POM.xml with proper parameters
+                pom {
+                    project {
+                        packaging 'aar'
+                        name projectName
+                        url siteUrl
+                        // Set your license
+                        licenses {
+                            license {
+                                name pom_projects_licens
+                                url pom_projects_url
+                            }
+                        }
+                        developers {
+                            developer { //填写的一些基本信息
+                                id develop_id
+                                name develop_name
+                                email develop_email
+                            }
+                        }
+                        scm {
+                            connection gitUrl
+                            developerConnection gitUrl
+                            url siteUrl
+                        }
+                    }
+                }
+            }
+        }
+
+        tasks.getByName("bintrayUpload").dependsOn("install")
+
+        //tasks.getByPath(":${project.name}:javadoc").enabled = false
+    }
+}
+
