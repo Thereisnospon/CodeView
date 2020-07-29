@@ -12,19 +12,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Button testtheme=(Button)findViewById(R.id.test_theme);
-        testtheme.setOnClickListener(new View.OnClickListener() {
+        Button testTheme = (Button) findViewById(R.id.test_theme);
+        testTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,IndexActivity.class);
+                Intent intent = new Intent(MainActivity.this, IndexActivity.class);
                 startActivity(intent);
             }
         });
-        Button testhtml=(Button)findViewById(R.id.test_htmlcode);
-        testhtml.setOnClickListener(new View.OnClickListener() {
+        Button testHtml = (Button) findViewById(R.id.test_htmlcode);
+        testHtml.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,ShowHtmlCodeActivity.class);
+                Intent intent = new Intent(MainActivity.this, ShowHtmlCodeActivity.class);
                 startActivity(intent);
             }
         });

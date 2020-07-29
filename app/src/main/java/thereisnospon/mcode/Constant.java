@@ -5,7 +5,7 @@ package thereisnospon.mcode;
  */
 public class Constant {
 
-    public static final String CODE="#include<iostream>  \n" +
+    public static final String CODE = "#include<iostream>  \n" +
             "#include<queue>  \n" +
             "#include<string>  \n" +
             "#include<cstdio>  \n" +
@@ -70,7 +70,7 @@ public class Constant {
             "    return 0;  \n" +
             "}  ";
 
-    public static final String HTML="<!DOCTYPE html>\n" +
+    public static final String HTML = "<!DOCTYPE html>\n" +
             "<html>\n" +
             "<head>\n" +
             "\t<title></title>\n" +

@@ -10,15 +10,16 @@ public class ShowCodeActivity extends AppCompatActivity {
 
 
     CodeView codeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int theme=getIntent().getIntExtra("theme",0);
-        codeView=(CodeView)findViewById(R.id.codeview);
+        int theme = getIntent().getIntExtra("theme", 0);
+        codeView = (CodeView) findViewById(R.id.codeview);
         codeView.setTheme(CodeViewTheme.listThemes()[theme]);
         codeView.fillColor();
-        
+
         codeView.showCode(Constant.CODE);
     }
 }

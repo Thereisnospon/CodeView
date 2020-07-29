@@ -9,13 +9,14 @@ import thereisnospon.codeview.CodeViewTheme;
 public class ShowHtmlCodeActivity extends AppCompatActivity {
 
     CodeView codeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_html_code);
-        codeView=(CodeView)findViewById(R.id.codeview);
+        codeView = (CodeView) findViewById(R.id.codeview);
         codeView.setTheme(CodeViewTheme.DRACULA);
-        codeView.showCodeHtmlByCssSelect(Constant.HTML,".code");
+        codeView.showCodeHtmlByCssSelect(Constant.HTML, ".code");
         codeView.setTheme(CodeViewTheme.DRACULA);
     }
 }
