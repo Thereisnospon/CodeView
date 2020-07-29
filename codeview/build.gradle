@@ -2,15 +2,17 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -29,7 +31,7 @@ apply from: rootProject.file("uplib.gradle")
 
 
 project.group = "thereisnospon.codeview"
-project.version = "0.3.2"
+project.version = "0.3.3"
 
 publishAar {
 

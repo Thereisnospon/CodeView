@@ -154,7 +154,7 @@ def configUpload(UpData upData) {
 
         tasks.getByName("bintrayUpload").dependsOn("install")
 
-        //tasks.getByPath(":${project.name}:javadoc").enabled = false
+        tasks.getByPath(":${project.name}:javadoc").enabled = false
     }
 }
 
